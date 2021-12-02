@@ -37,13 +37,11 @@ class ToolWindow(QtWidgets.QMainWindow):
             self.verticalLayout.addWidget(button)
             button.clicked.connect(self.assign_function)
 
-
-
     def assign_function(self):
         button_name = self.sender().text()
-        if 'open' in button_name:
+        if 'Open' in button_name:
             self.open_file()
-        elif 'save' in button_name:
+        elif 'Save' in button_name:
             self.save_file()
         else:
             self.custom_function()
