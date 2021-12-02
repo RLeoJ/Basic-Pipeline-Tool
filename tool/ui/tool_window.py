@@ -11,7 +11,7 @@ if six.PY2:
 else:
     from pathlib import Path
 
-from engine.choose_handler import choose_handler as handler
+from handler.choose_handler import choose_handler as handler
 
 ui_path = Path(__file__).parent / 'qt' / 'Window.ui'
 
@@ -23,14 +23,11 @@ class ToolWindow(QtWidgets.QMainWindow):
         super(ToolWindow, self).__init__()
         QtCompat.loadUi(str(ui_path), self)
         self.handler = handler()
-        self.create_buttons()
 
         for f in data.get_files():
-            item = QtWidgets.QListWidgetItem()
-            item.setText(os.path.basename(f))
-            item.setData(UserRole, f)
-            self.listWidget.addItem(item)
             addListWidgetItem(self.listWidget, f, os.path.basename(f))
+
+        self.create_buttons()
 
     def create_buttons(self):
         for implementation in self.handler.implements:
@@ -38,15 +35,18 @@ class ToolWindow(QtWidgets.QMainWindow):
             button.setToolTip(implementation)
             button.setText(implementation)
             self.verticalLayout.addWidget(button)
-            button.clicked.connect(self.assign_function(implementation))
+            button.clicked.connect(self.assign_function)
 
-    def assign_function(self, button_name):
-        if 'Open' in button_name:
-            return self.open_file()
-        elif 'Save' in button_name:
-            return self.save_file()
+
+
+    def assign_function(self):
+        button_name = self.sender().text()
+        if 'open' in button_name:
+            self.open_file()
+        elif 'save' in button_name:
+            self.save_file()
         else:
-            return self.custom_function()
+            self.custom_function()
 
     def open_file(self):
         item = self.listWidget.currentItem()

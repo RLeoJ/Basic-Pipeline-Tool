@@ -1,6 +1,6 @@
 import hou
 
-class HoudiniEngine():
+class HoudiniHandler():
     implements = ['save', 'open', 'merge']
 
     def open(self, path):
@@ -9,5 +9,5 @@ class HoudiniEngine():
     def save(self):
         hou.hipFile.save(file_name=None, save_to_recent_files=True)
 
-    def merge(self, path):
+    def reference(self, path):
         hou.hipFile.merge(path, node_pattern="*", overwrite_on_conflict=False, ignore_load_warnings=False)

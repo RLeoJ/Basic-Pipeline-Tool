@@ -1,7 +1,7 @@
 import maya.cmds as cmds
 
-class MayaEngine():
-    implements = ['save', 'open', 'reference']
+class MayaHandler():
+    implements = ['Save', 'Open', 'Reference']
 
     def open(self, path):
         cmds.file(path, open=True, f=True)
